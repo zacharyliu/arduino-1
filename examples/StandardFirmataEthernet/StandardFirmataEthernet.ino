@@ -54,7 +54,7 @@
 /* ethernet client*/
 EthernetClient client;
 byte mac[] = {0x90,0xA2,0xDA,0x0D,0x07,0x02};
-byte ip[] = {192,168,0,191};
+byte ip[] = {192,168,0,190};
 int port = 3030;
 FirmataClass FirmataEthernet(client);
 
@@ -645,7 +645,7 @@ void loop()
       }
     }
   } else {
-    client.close();
+    client.stop();
     Ethernet.begin(mac);
     delay(1000);  
     client.connect(ip,port);
