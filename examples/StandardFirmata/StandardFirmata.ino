@@ -507,6 +507,26 @@ void sysexCallback(byte command, byte argc, byte *argv)
     }
     Serial.write(END_SYSEX);
     break;
+  case PULSE_IN:
+    unsigned long duration;
+    byte responseArray[5];
+    byte timeoutArray[4] = {
+        (argv[2] & 0x7F) | ((argv[3] & 0x7F) << 7)
+       ,(argv[4] & 0x7F) | ((argv[5] & 0x7F) << 7)
+       ,(argv[6] & 0x7F) | ((argv[7] & 0x7F) << 7)
+       ,(argv[8] & 0x7F) | ((argv[9] & 0x7F) << 7)
+    };
+    unsigned long timeout = ((unsigned long)timeoutArray[0] << 24)
+              | ((unsigned long)timeoutArray[1] << 16)
+              | ((unsigned long)timeoutArray[2] << 8)
+              | ((unsigned long)timeoutArray[3]);
+    duration = pulseIn(argv[0],argv[1],timeout);
+    responseArray[0] = argv[0];
+    responseArray[1] = ((timeout >> 24) & 0xFF) ;
+    responseArray[2] = ((timeout >> 16) & 0xFF) ;
+    responseArray[3] = ((timeout >> 8) & 0xFF);
+    responseArray[4] = ((timeout & 0xFF));
+    Firmata.sendSysex(PULSE_IN,5,responseArray);
   }
 }
 
