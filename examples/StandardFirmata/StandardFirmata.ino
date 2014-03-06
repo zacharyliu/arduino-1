@@ -45,6 +45,7 @@
 #define MINIMUM_SAMPLING_INTERVAL 10
 
 #define REGISTER_NOT_SPECIFIED -1
+#define PULSE_IN                0x74 // send a pulse in command
 
 /*==============================================================================
  * GLOBAL VARIABLES
